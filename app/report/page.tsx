@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 
 type FormData = {
@@ -18,12 +18,40 @@ type FormData = {
   timeline: string;
 };
 
-const QUICK_WINS = [
+type QuickWin = {
+  title: string;
+  department: string;
+  timeSaved: string;
+  difficulty: "Easy" | "Medium" | "Hard";
+  tool: string;
+  description: string;
+};
+
+type StrategicRec = {
+  opportunity: string;
+  department: string;
+  roi: string;
+  effort: string;
+  priority: string;
+  tool: string;
+};
+
+type RoadmapPhase = {
+  phase: string;
+  duration: string;
+  label: string;
+  color: string;
+  items: string[];
+};
+
+const PHASE_COLORS = ["bg-green-500", "bg-blue-500", "bg-purple-500"];
+
+const DEFAULT_QUICK_WINS: QuickWin[] = [
   {
     title: "AI Customer Support Chatbot",
     department: "Customer Service",
     timeSaved: "15 hrs/week",
-    difficulty: "Easy" as const,
+    difficulty: "Easy",
     tool: "Intercom AI",
     description:
       "Deploy a conversational AI chatbot to handle tier-1 support inquiries (FAQs, order status, account questions) 24/7 without human intervention. Escalation logic routes complex issues to your team seamlessly.",
@@ -32,23 +60,23 @@ const QUICK_WINS = [
     title: "Automated Lead Follow-up Sequences",
     department: "Sales",
     timeSaved: "8 hrs/week",
-    difficulty: "Easy" as const,
+    difficulty: "Easy",
     tool: "HubSpot AI",
     description:
-      "Trigger AI-written, personalized follow-up email sequences the moment a lead goes cold or a form is submitted. Proven to increase response rates by 35–60% vs. manual outreach.",
+      "Trigger AI-written, personalized follow-up email sequences the moment a lead goes cold or a form is submitted. Proven to increase response rates by 35-60% vs. manual outreach.",
   },
   {
     title: "AI Content Generation",
     department: "Marketing",
     timeSaved: "10 hrs/week",
-    difficulty: "Easy" as const,
+    difficulty: "Easy",
     tool: "Jasper / Claude",
     description:
       "Generate first-draft blog posts, social captions, ad copy, and email campaigns at scale. Your team focuses on editing and strategy while AI handles the blank-page problem.",
   },
 ];
 
-const STRATEGIC_RECS = [
+const DEFAULT_STRATEGIC_RECS: StrategicRec[] = [
   {
     opportunity: "Intelligent Data Reporting",
     department: "Operations",
@@ -99,10 +127,10 @@ const STRATEGIC_RECS = [
   },
 ];
 
-const ROADMAP = [
+const DEFAULT_ROADMAP: RoadmapPhase[] = [
   {
     phase: "Phase 1",
-    duration: "Months 1–2",
+    duration: "Months 1-2",
     label: "Quick Wins",
     color: "bg-green-500",
     items: [
@@ -114,7 +142,7 @@ const ROADMAP = [
   },
   {
     phase: "Phase 2",
-    duration: "Months 3–6",
+    duration: "Months 3-6",
     label: "Core Integrations",
     color: "bg-blue-500",
     items: [
@@ -126,7 +154,7 @@ const ROADMAP = [
   },
   {
     phase: "Phase 3",
-    duration: "Months 6–12",
+    duration: "Months 6-12",
     label: "Advanced Automation",
     color: "bg-purple-500",
     items: [
@@ -169,7 +197,7 @@ function getIndustrySummary(industry: string, businessName: string, teamSize: st
 }
 
 function getScore(form: FormData): number {
-  let score = 62; // base
+  let score = 62;
   if (form.teamSize === "11–50") score += 8;
   if (form.teamSize === "51–200") score += 12;
   if (form.teamSize === "200+") score += 15;
@@ -232,6 +260,48 @@ function ReportContent() {
     }
   }
 
+  const [quickWins, setQuickWins] = useState<QuickWin[]>(DEFAULT_QUICK_WINS);
+  const [strategicRecs, setStrategicRecs] = useState<StrategicRec[]>(DEFAULT_STRATEGIC_RECS);
+  const [roadmap, setRoadmap] = useState<RoadmapPhase[]>(DEFAULT_ROADMAP);
+  const [generating, setGenerating] = useState(true);
+  const [aiGenerated, setAiGenerated] = useState(false);
+
+  useEffect(() => {
+    async function generate() {
+      try {
+        const res = await fetch("/api/report", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          console.error("Report API error:", res.status, err);
+          return;
+        }
+        const data = await res.json();
+        if (data.quickWins) setQuickWins(data.quickWins);
+        if (data.strategicRecs) setStrategicRecs(data.strategicRecs);
+        if (data.roadmap) {
+          setRoadmap(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            data.roadmap.map((phase: any, i: number) => ({
+              ...phase,
+              color: PHASE_COLORS[i] ?? "bg-slate-500",
+            }))
+          );
+        }
+        setAiGenerated(true);
+      } catch (err) {
+        console.error("Report generation failed:", err);
+      } finally {
+        setGenerating(false);
+      }
+    }
+    generate();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const score = getScore(form);
   const summary = getIndustrySummary(form.industry, form.businessName, form.teamSize);
   const today = new Date().toLocaleDateString("en-US", {
@@ -245,7 +315,7 @@ function ReportContent() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Header — no-print excluded from PDF */}
+      {/* Header */}
       <header className="bg-[#0f172a] text-white px-6 py-4 no-print">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
@@ -345,11 +415,22 @@ function ReportContent() {
             <span className="ml-2 bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">
               Start here
             </span>
+            {generating && (
+              <span className="ml-2 flex items-center gap-1.5 text-xs text-slate-400">
+                <span className="w-3 h-3 border-2 border-slate-300 border-t-blue-500 rounded-full animate-spin inline-block" />
+                Personalizing...
+              </span>
+            )}
+            {aiGenerated && (
+              <span className="ml-2 bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded-full">
+                AI-generated
+              </span>
+            )}
           </div>
           <div className="grid md:grid-cols-3 gap-5">
-            {QUICK_WINS.map((win) => (
+            {quickWins.map((win, i) => (
               <div
-                key={win.title}
+                key={i}
                 className="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col"
               >
                 <div className="flex items-start justify-between mb-3">
@@ -411,8 +492,8 @@ function ReportContent() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {STRATEGIC_RECS.map((rec) => (
-                  <tr key={rec.opportunity} className="hover:bg-slate-50 transition-colors">
+                {strategicRecs.map((rec, i) => (
+                  <tr key={i} className="hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4 text-sm font-medium text-slate-900">{rec.opportunity}</td>
                     <td className="px-4 py-4 text-sm text-slate-600">{rec.department}</td>
                     <td className="px-4 py-4 text-sm text-slate-500">{rec.tool}</td>
@@ -437,7 +518,7 @@ function ReportContent() {
             <h2 className="text-lg font-bold text-slate-900">Implementation Roadmap</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
-            {ROADMAP.map((phase) => (
+            {roadmap.map((phase) => (
               <div key={phase.phase} className="bg-white rounded-2xl border border-slate-200 p-6">
                 <div className={`inline-block ${phase.color} text-white text-xs font-bold px-3 py-1 rounded-full mb-3`}>
                   {phase.phase}: {phase.label}
@@ -446,8 +527,8 @@ function ReportContent() {
                   {phase.duration}
                 </p>
                 <ul className="space-y-3">
-                  {phase.items.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm text-slate-600">
+                  {phase.items.map((item, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
                       <svg
                         className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5"
                         fill="none"
@@ -505,7 +586,7 @@ export default function ReportPage() {
         <div className="min-h-screen bg-slate-50 flex items-center justify-center">
           <div className="text-center">
             <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-slate-500 text-sm">Generating your report…</p>
+            <p className="text-slate-500 text-sm">Generating your report...</p>
           </div>
         </div>
       }
