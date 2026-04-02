@@ -26,7 +26,7 @@ const QUICK_WINS = [
     difficulty: "Easy" as const,
     tool: "Intercom AI",
     description:
-      "Deploy a conversational AI chatbot to handle tier-1 support inquiries — FAQs, order status, account questions — 24/7 without human intervention. Escalation logic routes complex issues to your team seamlessly.",
+      "Deploy a conversational AI chatbot to handle tier-1 support inquiries (FAQs, order status, account questions) 24/7 without human intervention. Escalation logic routes complex issues to your team seamlessly.",
   },
   {
     title: "Automated Lead Follow-up Sequences",
@@ -146,19 +146,19 @@ function getIndustrySummary(industry: string, businessName: string, teamSize: st
     Retail:
       `${name}${size} operates in a highly competitive retail environment where AI can drive measurable impact across inventory management, customer personalization, and supply chain optimization. Based on your responses, there are immediate opportunities to reduce manual workload and improve customer experience without significant upfront investment.`,
     Healthcare:
-      `${name}${size} faces the dual challenge of delivering high-quality patient care while managing complex administrative workflows. AI presents a clear opportunity to streamline documentation, patient communication, and compliance tracking — freeing clinical staff to focus on what matters most.`,
+      `${name}${size} faces the dual challenge of delivering high-quality patient care while managing complex administrative workflows. AI presents a clear opportunity to streamline documentation, patient communication, and compliance tracking, freeing clinical staff to focus on what matters most.`,
     Finance:
       `${name}${size} operates in a data-intensive environment where AI can accelerate analysis, improve compliance monitoring, and enhance client communication at scale. The opportunities identified in this audit are specifically chosen for their applicability to regulated financial environments.`,
     "Real Estate":
-      `${name}${size} can leverage AI to dramatically reduce time spent on lead qualification, contract preparation, and client follow-up — the three highest time-sink areas for real estate organizations of your size.`,
+      `${name}${size} can leverage AI to dramatically reduce time spent on lead qualification, contract preparation, and client follow-up: the three highest time-sink areas for real estate organizations of your size.`,
     Legal:
-      `${name}${size} has significant opportunity to reduce the burden of document review, contract management, and compliance tracking through AI — areas that typically consume 40–60% of billable time in firms of your profile.`,
+      `${name}${size} has significant opportunity to reduce the burden of document review, contract management, and compliance tracking through AI, areas that typically consume 40-60% of billable time in firms of your profile.`,
     "Marketing/Agency":
       `${name}${size} is well-positioned to use AI as a force multiplier for content production, campaign reporting, and client deliverables. Agencies of your size consistently report the fastest ROI from AI adoption in our benchmark data.`,
     Manufacturing:
-      `${name}${size} can apply AI to predictive maintenance, quality control, and supply chain optimization — three areas where early adopters are achieving 15–30% cost reductions.`,
+      `${name}${size} can apply AI to predictive maintenance, quality control, and supply chain optimization. Early adopters in these areas are achieving 15-30% cost reductions.`,
     Education:
-      `${name}${size} can use AI to personalize learning pathways, automate administrative tasks, and reduce the time educators spend on non-teaching activities — improving both outcomes and staff satisfaction.`,
+      `${name}${size} can use AI to personalize learning pathways, automate administrative tasks, and reduce the time educators spend on non-teaching activities, improving both outcomes and staff satisfaction.`,
     Hospitality:
       `${name}${size} can deploy AI to enhance guest experience, optimize pricing, and automate the repetitive front-desk and back-office workflows that consume disproportionate staff time.`,
     Other:
@@ -328,7 +328,7 @@ function ReportContent() {
             <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
               <p className="text-sm text-blue-800">
                 <span className="font-semibold">Primary objective identified:</span>{" "}
-                {form.primaryGoal} &mdash; all recommendations have been sequenced and prioritized accordingly.
+                {form.primaryGoal}. All recommendations have been sequenced and prioritized accordingly.
                 {form.timeline && (
                   <> Implementation timeline: <span className="font-semibold">{form.timeline}</span>.</>
                 )}
@@ -472,9 +472,14 @@ function ReportContent() {
             Book a free 30-minute strategy call with an AI implementation specialist. We&apos;ll walk through your top three quick wins and build a concrete action plan.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-sm">
-              Book a Free Strategy Call →
-            </button>
+            <a
+              href="https://meetings-na2.hubspot.com/zack-whitlock"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-sm"
+            >
+              Book a Free Strategy Call
+            </a>
             <button
               onClick={() => window.print()}
               className="border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white font-medium px-8 py-3.5 rounded-xl transition-colors text-sm"
@@ -486,7 +491,7 @@ function ReportContent() {
 
         {/* Footer */}
         <div className="text-center text-slate-400 text-xs mt-8 pb-6">
-          Generated by AuditAI · {today} · Confidential — prepared exclusively for {form.businessName || "your business"}
+          Generated by AuditAI · {today} · Confidential, prepared exclusively for {form.businessName || "your business"}
         </div>
       </main>
     </div>
