@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 const client = new Anthropic();
 
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   try {
     form = await req.json();
   } catch {
-    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+    return new Response(JSON.stringify({ error: "Invalid request body" }), { status: 400 });
   }
 
   const prompt = `You are an expert AI implementation consultant. A business has completed an intake questionnaire. Generate a personalized AI audit report for them.
@@ -91,26 +91,38 @@ Rules:
 - roadmap: exactly 3 phases, exactly 4 items each
 - All recommendations must be specific to the industry (${form.industry}), budget (${form.budget}), and pain points listed
 - Tool names must be real, specific products (not generic descriptions)
-- Prioritize budget-appropriate tools — do not recommend expensive enterprise tools if budget is low
+- Prioritize budget-appropriate tools
 - Do not use em dashes (use regular dashes or commas instead)
 - Do not wrap the response in markdown code blocks`;
 
-  try {
-    const message = await client.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 2000,
-      messages: [{ role: "user", content: prompt }],
-    });
+  const encoder = new TextEncoder();
 
-    const raw = message.content[0].type === "text" ? message.content[0].text : "";
+  const readable = new ReadableStream({
+    async start(controller) {
+      try {
+        const stream = client.messages.stream({
+          model: "claude-haiku-4-5-20251001",
+          max_tokens: 1500,
+          messages: [{ role: "user", content: prompt }],
+        });
 
-    // Strip any accidental markdown fences
-    const cleaned = raw.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "").trim();
+        for await (const chunk of stream) {
+          if (
+            chunk.type === "content_block_delta" &&
+            chunk.delta.type === "text_delta"
+          ) {
+            controller.enqueue(encoder.encode(chunk.delta.text));
+          }
+        }
+      } catch (err) {
+        console.error("Streaming error:", err);
+      } finally {
+        controller.close();
+      }
+    },
+  });
 
-    const data = JSON.parse(cleaned);
-    return NextResponse.json(data);
-  } catch (err) {
-    console.error("Claude API error:", err);
-    return NextResponse.json({ error: "Generation failed" }, { status: 500 });
-  }
+  return new Response(readable, {
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
+  });
 }

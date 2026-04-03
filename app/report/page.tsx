@@ -275,7 +275,10 @@ function ReportContent() {
   const [strategicRecs, setStrategicRecs] = useState<StrategicRec[]>(DEFAULT_STRATEGIC_RECS);
   const [roadmap, setRoadmap] = useState<RoadmapPhase[]>(DEFAULT_ROADMAP);
   const [generating, setGenerating] = useState(true);
-  const [aiGenerated, setAiGenerated] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  // Estimated total chars in a typical response — used to drive the progress bar
+  const EXPECTED_CHARS = 1400;
 
   useEffect(() => {
     async function generate() {
@@ -285,12 +288,26 @@ function ReportContent() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ...form, businessName: displayName }),
         });
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          console.error("Report API error:", res.status, err);
+        if (!res.ok || !res.body) {
+          console.error("Report API error:", res.status);
           return;
         }
-        const data = await res.json();
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let accumulated = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          accumulated += decoder.decode(value, { stream: true });
+          setProgress(Math.min(92, (accumulated.length / EXPECTED_CHARS) * 100));
+        }
+
+        setProgress(100);
+
+        const cleaned = accumulated.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "").trim();
+        const data = JSON.parse(cleaned);
         if (data.quickWins) setQuickWins(data.quickWins);
         if (data.strategicRecs) setStrategicRecs(data.strategicRecs);
         if (data.roadmap) {
@@ -302,7 +319,6 @@ function ReportContent() {
             }))
           );
         }
-        setAiGenerated(true);
       } catch (err) {
         console.error("Report generation failed:", err);
       } finally {
@@ -327,20 +343,22 @@ function ReportContent() {
 
   if (generating) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
-        <div className="text-center">
-          <div className="relative w-20 h-20 mx-auto mb-8">
-            <div className="w-20 h-20 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xs">AI</span>
-              </div>
-            </div>
+      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center px-6">
+        <div className="w-full max-w-sm text-center">
+          <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center mx-auto mb-8">
+            <span className="text-white font-bold text-sm">AI</span>
           </div>
           <h2 className="text-white text-xl font-semibold mb-2">Analyzing your business...</h2>
-          <p className="text-slate-400 text-sm max-w-xs mx-auto">
+          <p className="text-slate-400 text-sm mb-10">
             Generating personalized AI recommendations for {displayName}
           </p>
+          <div className="w-full bg-slate-800 rounded-full h-1.5 mb-3">
+            <div
+              className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <p className="text-slate-500 text-xs">{Math.round(progress)}%</p>
         </div>
       </div>
     );
