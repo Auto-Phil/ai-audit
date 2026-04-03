@@ -325,6 +325,27 @@ function ReportContent() {
   const circumference = 2 * Math.PI * 54;
   const dashOffset = circumference - (score / 100) * circumference;
 
+  if (generating) {
+    return (
+      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center">
+        <div className="text-center">
+          <div className="relative w-20 h-20 mx-auto mb-8">
+            <div className="w-20 h-20 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xs">AI</span>
+              </div>
+            </div>
+          </div>
+          <h2 className="text-white text-xl font-semibold mb-2">Analyzing your business...</h2>
+          <p className="text-slate-400 text-sm max-w-xs mx-auto">
+            Generating personalized AI recommendations for {displayName}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
@@ -427,17 +448,6 @@ function ReportContent() {
             <span className="ml-2 bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">
               Start here
             </span>
-            {generating && (
-              <span className="ml-2 flex items-center gap-1.5 text-xs text-slate-400">
-                <span className="w-3 h-3 border-2 border-slate-300 border-t-blue-500 rounded-full animate-spin inline-block" />
-                Personalizing...
-              </span>
-            )}
-            {aiGenerated && (
-              <span className="ml-2 bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-0.5 rounded-full">
-                AI-generated
-              </span>
-            )}
           </div>
           <div className="grid md:grid-cols-3 gap-5">
             {quickWins.map((win, i) => (
