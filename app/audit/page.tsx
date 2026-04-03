@@ -224,13 +224,13 @@ function Step1({
       <div className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-2">
-            Business Name <span className="text-red-500">*</span>
+            Company Website <span className="text-red-500">*</span>
           </label>
           <input
-            type="text"
+            type="url"
             value={form.businessName}
             onChange={(e) => updateField("businessName", e.target.value)}
-            placeholder="Acme Corp"
+            placeholder="https://yourcompany.com"
             className="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
           />
         </div>
