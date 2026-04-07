@@ -44,7 +44,7 @@ type RoadmapPhase = {
   items: string[];
 };
 
-const PHASE_COLORS = ["bg-green-500", "bg-blue-500", "bg-purple-500"];
+const PHASE_COLORS = ["bg-green-500", "bg-[#3D9A93]", "bg-purple-500"];
 
 const DEFAULT_QUICK_WINS: QuickWin[] = [
   {
@@ -144,7 +144,7 @@ const DEFAULT_ROADMAP: RoadmapPhase[] = [
     phase: "Phase 2",
     duration: "Months 3-6",
     label: "Core Integrations",
-    color: "bg-blue-500",
+    color: "bg-[#3D9A93]",
     items: [
       "Connect CRM to AI reporting dashboard",
       "Automate contract review workflows",
@@ -223,7 +223,7 @@ function PriorityBadge({ priority }: { priority: string }) {
   const styles: Record<string, string> = {
     High: "bg-green-100 text-green-800",
     Medium: "bg-yellow-100 text-yellow-800",
-    Low: "bg-slate-100 text-slate-600",
+    Low: "bg-[#EDF0E6] text-[#4B6B68]",
   };
   return (
     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold ${styles[priority] ?? styles["Low"]}`}>
@@ -315,7 +315,7 @@ function ReportContent() {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             data.roadmap.map((phase: any, i: number) => ({
               ...phase,
-              color: PHASE_COLORS[i] ?? "bg-slate-500",
+              color: PHASE_COLORS[i] ?? "bg-[#3D9A93]",
             }))
           );
         }
@@ -343,34 +343,34 @@ function ReportContent() {
 
   if (generating) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center px-6">
+      <div className="min-h-screen bg-[#1B4A47] flex items-center justify-center px-6">
         <div className="w-full max-w-sm text-center">
-          <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center mx-auto mb-8">
+          <div className="w-12 h-12 bg-[#3D9A93] rounded-xl flex items-center justify-center mx-auto mb-8">
             <span className="text-white font-bold text-sm">AI</span>
           </div>
           <h2 className="text-white text-xl font-semibold mb-2">Analyzing your business...</h2>
-          <p className="text-slate-400 text-sm mb-10">
+          <p className="text-[#64B5AF] text-sm mb-10">
             Generating personalized AI recommendations for {displayName}
           </p>
-          <div className="w-full bg-slate-800 rounded-full h-1.5 mb-3">
+          <div className="w-full bg-[#123330] rounded-full h-1.5 mb-3">
             <div
-              className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
+              className="bg-[#3D9A93] h-1.5 rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <p className="text-slate-500 text-xs">{Math.round(progress)}%</p>
+          <p className="text-[#64B5AF]/60 text-xs">{Math.round(progress)}%</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#EDF0E6]">
       {/* Header */}
-      <header className="bg-[#0f172a] text-white px-6 py-4 no-print">
+      <header className="bg-[#1B4A47] text-white px-6 py-4 no-print">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-[#3D9A93] rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">AI</span>
             </div>
             <span className="font-semibold text-lg tracking-tight">AuditAI</span>
@@ -378,7 +378,7 @@ function ReportContent() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => window.print()}
-              className="flex items-center gap-2 border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white px-4 py-2 rounded-lg text-sm transition-colors"
+              className="flex items-center gap-2 border border-[#3D9A93]/40 hover:border-[#64B5AF] text-[#64B5AF] hover:text-white px-4 py-2 rounded-lg text-sm transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
@@ -387,7 +387,7 @@ function ReportContent() {
             </button>
             <Link
               href="/audit"
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              className="bg-[#3D9A93] hover:bg-[#266560] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
               New Audit
             </Link>
@@ -397,16 +397,16 @@ function ReportContent() {
 
       <main className="max-w-5xl mx-auto px-6 py-10">
         {/* Report header */}
-        <div className="bg-[#0f172a] text-white rounded-2xl p-8 mb-8">
+        <div className="bg-[#1B4A47] text-white rounded-2xl p-8 mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-              <div className="text-blue-400 text-sm font-semibold uppercase tracking-wider mb-2">
+              <div className="text-[#64B5AF] text-sm font-semibold uppercase tracking-wider mb-2">
                 AI Audit Report
               </div>
               <h1 className="text-3xl font-bold mb-1">
                 {displayName}
               </h1>
-              <p className="text-slate-400 text-sm">
+              <p className="text-[#EDF0E6]/60 text-sm">
                 {form.industry} · {form.teamSize} employees · Generated {today}
               </p>
             </div>
@@ -420,7 +420,7 @@ function ReportContent() {
                     cy="60"
                     r="54"
                     fill="none"
-                    stroke="#3b82f6"
+                    stroke="#3D9A93"
                     strokeWidth="10"
                     strokeLinecap="round"
                     strokeDasharray={circumference}
@@ -430,24 +430,24 @@ function ReportContent() {
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-3xl font-bold text-white">{score}</span>
-                  <span className="text-xs text-slate-400">/ 100</span>
+                  <span className="text-xs text-[#EDF0E6]/50">/ 100</span>
                 </div>
               </div>
-              <p className="text-xs text-slate-400 mt-2 text-center">AI Readiness Score</p>
+              <p className="text-xs text-[#EDF0E6]/50 mt-2 text-center">AI Readiness Score</p>
             </div>
           </div>
         </div>
 
         {/* Executive summary */}
-        <section className="bg-white rounded-2xl border border-slate-200 p-8 mb-8">
-          <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-blue-500 rounded-full inline-block"></span>
+        <section className="bg-white rounded-2xl border border-[rgba(27,74,71,0.13)] p-8 mb-8">
+          <h2 className="text-lg font-bold text-[#1B3634] mb-4 flex items-center gap-2">
+            <span className="w-1.5 h-6 bg-[#3D9A93] rounded-full inline-block"></span>
             Executive Summary
           </h2>
-          <p className="text-slate-600 leading-relaxed text-[15px]">{summary}</p>
+          <p className="text-[#4B6B68] leading-relaxed text-[15px]">{summary}</p>
           {form.primaryGoal && (
-            <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
-              <p className="text-sm text-blue-800">
+            <div className="mt-4 p-4 bg-[#EDF0E6] rounded-xl border border-[rgba(27,74,71,0.13)]">
+              <p className="text-sm text-[#1B4A47]">
                 <span className="font-semibold">Primary objective identified:</span>{" "}
                 {form.primaryGoal}. All recommendations have been sequenced and prioritized accordingly.
                 {form.timeline && (
@@ -462,7 +462,7 @@ function ReportContent() {
         <section className="mb-8">
           <div className="flex items-center gap-2 mb-5">
             <span className="w-1.5 h-6 bg-green-500 rounded-full inline-block"></span>
-            <h2 className="text-lg font-bold text-slate-900">Top 3 Quick Wins</h2>
+            <h2 className="text-lg font-bold text-[#1B3634]">Top 3 Quick Wins</h2>
             <span className="ml-2 bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">
               Start here
             </span>
@@ -471,24 +471,24 @@ function ReportContent() {
             {quickWins.map((win, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col"
+                className="bg-white rounded-2xl border border-[rgba(27,74,71,0.13)] p-6 flex flex-col"
               >
                 <div className="flex items-start justify-between mb-3">
-                  <span className="inline-block bg-slate-100 text-slate-600 text-xs font-medium px-2.5 py-1 rounded-full">
+                  <span className="inline-block bg-[#EDF0E6] text-[#4B6B68] text-xs font-medium px-2.5 py-1 rounded-full">
                     {win.department}
                   </span>
                   <DifficultyBadge difficulty={win.difficulty} />
                 </div>
-                <h3 className="text-base font-semibold text-slate-900 mb-2">{win.title}</h3>
-                <p className="text-sm text-slate-500 leading-relaxed mb-4 flex-1">{win.description}</p>
-                <div className="border-t border-slate-100 pt-4 space-y-2">
+                <h3 className="text-base font-semibold text-[#1B3634] mb-2">{win.title}</h3>
+                <p className="text-sm text-[#4B6B68] leading-relaxed mb-4 flex-1">{win.description}</p>
+                <div className="border-t border-[rgba(27,74,71,0.08)] pt-4 space-y-2">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-slate-400">Time saved</span>
+                    <span className="text-[#7A9896]">Time saved</span>
                     <span className="font-semibold text-green-600">{win.timeSaved}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-slate-400">Recommended tool</span>
-                    <span className="font-medium text-slate-700">{win.tool}</span>
+                    <span className="text-[#7A9896]">Recommended tool</span>
+                    <span className="font-medium text-[#1B3634]">{win.tool}</span>
                   </div>
                 </div>
               </div>
@@ -497,50 +497,50 @@ function ReportContent() {
         </section>
 
         {/* Strategic recommendations table */}
-        <section className="bg-white rounded-2xl border border-slate-200 mb-8 overflow-hidden">
-          <div className="p-6 border-b border-slate-100">
+        <section className="bg-white rounded-2xl border border-[rgba(27,74,71,0.13)] mb-8 overflow-hidden">
+          <div className="p-6 border-b border-[rgba(27,74,71,0.08)]">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-6 bg-blue-500 rounded-full inline-block"></span>
-              <h2 className="text-lg font-bold text-slate-900">Strategic Recommendations</h2>
+              <span className="w-1.5 h-6 bg-[#3D9A93] rounded-full inline-block"></span>
+              <h2 className="text-lg font-bold text-[#1B3634]">Strategic Recommendations</h2>
             </div>
-            <p className="text-sm text-slate-500 mt-1 ml-3.5">
+            <p className="text-sm text-[#4B6B68] mt-1 ml-3.5">
               Additional opportunities ranked by ROI potential and implementation effort
             </p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-slate-50 text-left">
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                <tr className="bg-[#F5F7EF] text-left">
+                  <th className="px-6 py-3 text-xs font-semibold text-[#7A9896] uppercase tracking-wider">
                     Opportunity
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-xs font-semibold text-[#7A9896] uppercase tracking-wider">
                     Department
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-xs font-semibold text-[#7A9896] uppercase tracking-wider">
                     Tool
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-xs font-semibold text-[#7A9896] uppercase tracking-wider">
                     ROI
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-xs font-semibold text-[#7A9896] uppercase tracking-wider">
                     Effort
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-xs font-semibold text-[#7A9896] uppercase tracking-wider">
                     Priority
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-[rgba(27,74,71,0.07)]">
                 {strategicRecs.map((rec, i) => (
-                  <tr key={i} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4 text-sm font-medium text-slate-900">{rec.opportunity}</td>
-                    <td className="px-4 py-4 text-sm text-slate-600">{rec.department}</td>
-                    <td className="px-4 py-4 text-sm text-slate-500">{rec.tool}</td>
+                  <tr key={i} className="hover:bg-[#F5F7EF] transition-colors">
+                    <td className="px-6 py-4 text-sm font-medium text-[#1B3634]">{rec.opportunity}</td>
+                    <td className="px-4 py-4 text-sm text-[#4B6B68]">{rec.department}</td>
+                    <td className="px-4 py-4 text-sm text-[#7A9896]">{rec.tool}</td>
                     <td className="px-4 py-4">
                       <PriorityBadge priority={rec.roi} />
                     </td>
-                    <td className="px-4 py-4 text-sm text-slate-600">{rec.effort}</td>
+                    <td className="px-4 py-4 text-sm text-[#4B6B68]">{rec.effort}</td>
                     <td className="px-4 py-4">
                       <PriorityBadge priority={rec.priority} />
                     </td>
@@ -555,22 +555,22 @@ function ReportContent() {
         <section className="mb-8">
           <div className="flex items-center gap-2 mb-5">
             <span className="w-1.5 h-6 bg-purple-500 rounded-full inline-block"></span>
-            <h2 className="text-lg font-bold text-slate-900">Implementation Roadmap</h2>
+            <h2 className="text-lg font-bold text-[#1B3634]">Implementation Roadmap</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-5">
             {roadmap.map((phase) => (
-              <div key={phase.phase} className="bg-white rounded-2xl border border-slate-200 p-6">
+              <div key={phase.phase} className="bg-white rounded-2xl border border-[rgba(27,74,71,0.13)] p-6">
                 <div className={`inline-block ${phase.color} text-white text-xs font-bold px-3 py-1 rounded-full mb-3`}>
                   {phase.phase}: {phase.label}
                 </div>
-                <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">
+                <p className="text-xs font-semibold text-[#7A9896] uppercase tracking-wider mb-4">
                   {phase.duration}
                 </p>
                 <ul className="space-y-3">
                   {phase.items.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-slate-600">
+                    <li key={i} className="flex items-start gap-3 text-sm text-[#4B6B68]">
                       <svg
-                        className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5"
+                        className="w-4 h-4 text-[#7A9896] flex-shrink-0 mt-0.5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -587,9 +587,9 @@ function ReportContent() {
         </section>
 
         {/* Next steps CTA */}
-        <section className="bg-[#0f172a] text-white rounded-2xl p-8 text-center no-print">
+        <section className="bg-[#1B4A47] text-white rounded-2xl p-8 text-center no-print">
           <h2 className="text-2xl font-bold mb-3">Ready to implement?</h2>
-          <p className="text-slate-400 mb-6 max-w-xl mx-auto leading-relaxed">
+          <p className="text-[#EDF0E6]/60 mb-6 max-w-xl mx-auto leading-relaxed">
             Book a free 30-minute strategy call with an AI implementation specialist. We&apos;ll walk through your top three quick wins and build a concrete action plan.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -597,13 +597,13 @@ function ReportContent() {
               href="https://meetings-na2.hubspot.com/zack-whitlock"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-sm"
+              className="bg-[#3D9A93] hover:bg-[#266560] text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-sm"
             >
               Book a Free Strategy Call
             </a>
             <button
               onClick={() => window.print()}
-              className="border border-slate-600 hover:border-slate-400 text-slate-300 hover:text-white font-medium px-8 py-3.5 rounded-xl transition-colors text-sm"
+              className="border border-[#3D9A93]/40 hover:border-[#64B5AF] text-[#64B5AF] hover:text-white font-medium px-8 py-3.5 rounded-xl transition-colors text-sm"
             >
               Download This Report (PDF)
             </button>
@@ -611,7 +611,7 @@ function ReportContent() {
         </section>
 
         {/* Footer */}
-        <div className="text-center text-slate-400 text-xs mt-8 pb-6">
+        <div className="text-center text-[#7A9896] text-xs mt-8 pb-6">
           Generated by AuditAI · {today} · Confidential, prepared exclusively for {displayName}
         </div>
       </main>
@@ -623,10 +623,10 @@ export default function ReportPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="min-h-screen bg-[#EDF0E6] flex items-center justify-center">
           <div className="text-center">
-            <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-slate-500 text-sm">Generating your report...</p>
+            <div className="w-10 h-10 border-4 border-[#3D9A93] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-[#4B6B68] text-sm">Generating your report...</p>
           </div>
         </div>
       }

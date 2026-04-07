@@ -101,22 +101,22 @@ export default function AuditPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-[#EDF0E6] flex flex-col">
       {/* Header */}
-      <header className="bg-[#0f172a] text-white px-6 py-4">
+      <header className="bg-[#1B4A47] text-white px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-[#3D9A93] rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">AI</span>
             </div>
             <span className="font-semibold text-lg tracking-tight">AuditAI</span>
           </Link>
-          <span className="text-slate-400 text-sm">Free Assessment</span>
+          <span className="text-[#64B5AF] text-sm">Free Assessment</span>
         </div>
       </header>
 
       {/* Progress */}
-      <div className="bg-white border-b border-slate-200">
+      <div className="bg-white border-b border-[rgba(27,74,71,0.13)]">
         <div className="max-w-3xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between mb-3">
             <div className="flex gap-6">
@@ -125,17 +125,17 @@ export default function AuditPage() {
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold ${
                       i + 1 < step
-                        ? "bg-blue-500 text-white"
+                        ? "bg-[#3D9A93] text-white"
                         : i + 1 === step
-                        ? "bg-blue-500 text-white"
-                        : "bg-slate-200 text-slate-400"
+                        ? "bg-[#3D9A93] text-white"
+                        : "bg-[#E8EBE2] text-[#7A9896]"
                     }`}
                   >
                     {i + 1 < step ? "✓" : i + 1}
                   </div>
                   <span
                     className={`text-sm hidden sm:block ${
-                      i + 1 === step ? "text-slate-900 font-medium" : "text-slate-400"
+                      i + 1 === step ? "text-[#1B3634] font-medium" : "text-[#7A9896]"
                     }`}
                   >
                     {label}
@@ -143,13 +143,13 @@ export default function AuditPage() {
                 </div>
               ))}
             </div>
-            <span className="text-sm text-slate-400">
+            <span className="text-sm text-[#7A9896]">
               Step {step} of {totalSteps}
             </span>
           </div>
-          <div className="w-full bg-slate-100 rounded-full h-1.5">
+          <div className="w-full bg-[#E8EBE2] rounded-full h-1.5">
             <div
-              className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
+              className="bg-[#3D9A93] h-1.5 rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -159,7 +159,7 @@ export default function AuditPage() {
       {/* Form body */}
       <main className="flex-1 flex items-start justify-center px-6 py-12">
         <div className="w-full max-w-2xl">
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+          <div className="bg-white rounded-2xl border border-[rgba(27,74,71,0.13)] shadow-sm p-8">
             {step === 1 && (
               <Step1
                 form={form}
@@ -186,18 +186,18 @@ export default function AuditPage() {
             )}
 
             {/* Navigation */}
-            <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-100">
+            <div className="flex items-center justify-between mt-8 pt-6 border-t border-[rgba(27,74,71,0.08)]">
               <button
                 onClick={handleBack}
                 disabled={step === 1}
-                className="px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                className="px-5 py-2.5 text-sm font-medium text-[#4B6B68] hover:text-[#1B3634] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
               >
                 ← Back
               </button>
               <button
                 onClick={handleNext}
                 disabled={!canAdvance()}
-                className="bg-blue-500 hover:bg-blue-600 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-semibold px-7 py-2.5 rounded-lg transition-colors text-sm"
+                className="bg-[#3D9A93] hover:bg-[#266560] disabled:bg-[#E8EBE2] disabled:text-[#7A9896] disabled:cursor-not-allowed text-white font-semibold px-7 py-2.5 rounded-lg transition-colors text-sm"
               >
                 {step === totalSteps ? "Generate My Report →" : "Next →"}
               </button>
@@ -218,12 +218,12 @@ function Step1({
 }) {
   return (
     <div>
-      <h2 className="text-2xl font-bold text-slate-900 mb-1">Business Basics</h2>
-      <p className="text-slate-500 mb-8 text-sm">Let&apos;s start with a bit of background on your organization.</p>
+      <h2 className="text-2xl font-bold text-[#1B3634] mb-1">Business Basics</h2>
+      <p className="text-[#4B6B68] mb-8 text-sm">Let&apos;s start with a bit of background on your organization.</p>
 
       <div className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="block text-sm font-medium text-[#1B3634] mb-2">
             Company Website <span className="text-red-500">*</span>
           </label>
           <input
@@ -231,18 +231,18 @@ function Step1({
             value={form.businessName}
             onChange={(e) => updateField("businessName", e.target.value)}
             placeholder="https://yourcompany.com"
-            className="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+            className="w-full border border-[rgba(27,74,71,0.2)] rounded-lg px-4 py-3 text-[#1B3634] placeholder-[#7A9896] focus:outline-none focus:ring-2 focus:ring-[#3D9A93] focus:border-transparent transition"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-2">
+          <label className="block text-sm font-medium text-[#1B3634] mb-2">
             Industry <span className="text-red-500">*</span>
           </label>
           <select
             value={form.industry}
             onChange={(e) => updateField("industry", e.target.value)}
-            className="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
+            className="w-full border border-[rgba(27,74,71,0.2)] rounded-lg px-4 py-3 text-[#1B3634] focus:outline-none focus:ring-2 focus:ring-[#3D9A93] focus:border-transparent transition bg-white"
           >
             <option value="">Select your industry…</option>
             {INDUSTRIES.map((ind) => (
@@ -254,7 +254,7 @@ function Step1({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-3">
+          <label className="block text-sm font-medium text-[#1B3634] mb-3">
             Team Size <span className="text-red-500">*</span>
           </label>
           <div className="grid grid-cols-2 gap-3">
@@ -263,8 +263,8 @@ function Step1({
                 key={size}
                 className={`flex items-center gap-3 border rounded-lg px-4 py-3 cursor-pointer transition ${
                   form.teamSize === size
-                    ? "border-blue-500 bg-blue-50"
-                    : "border-slate-200 hover:border-slate-300"
+                    ? "border-[#3D9A93] bg-[#EDF0E6]"
+                    : "border-[rgba(27,74,71,0.2)] hover:border-[#3D9A93]/50"
                 }`}
               >
                 <input
@@ -273,9 +273,9 @@ function Step1({
                   value={size}
                   checked={form.teamSize === size}
                   onChange={(e) => updateField("teamSize", e.target.value)}
-                  className="text-blue-500"
+                  className="text-[#3D9A93]"
                 />
-                <span className="text-sm font-medium text-slate-700">{size} employees</span>
+                <span className="text-sm font-medium text-[#1B3634]">{size} employees</span>
               </label>
             ))}
           </div>
@@ -317,20 +317,20 @@ function Step2({
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-slate-900 mb-1">Current Tools</h2>
-      <p className="text-slate-500 mb-8 text-sm">
+      <h2 className="text-2xl font-bold text-[#1B3634] mb-1">Current Tools</h2>
+      <p className="text-[#4B6B68] mb-8 text-sm">
         Tell us what software your team uses today. Approximate answers are fine.
       </p>
       <div className="space-y-5">
         {fields.map(({ key, label, placeholder }) => (
           <div key={key}>
-            <label className="block text-sm font-medium text-slate-700 mb-2">{label}</label>
+            <label className="block text-sm font-medium text-[#1B3634] mb-2">{label}</label>
             <input
               type="text"
               value={form[key] as string}
               onChange={(e) => updateField(key, e.target.value)}
               placeholder={placeholder}
-              className="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              className="w-full border border-[rgba(27,74,71,0.2)] rounded-lg px-4 py-3 text-[#1B3634] placeholder-[#7A9896] focus:outline-none focus:ring-2 focus:ring-[#3D9A93] focus:border-transparent transition"
             />
           </div>
         ))}
@@ -348,9 +348,9 @@ function Step3({
 }) {
   return (
     <div>
-      <h2 className="text-2xl font-bold text-slate-900 mb-1">Pain Points</h2>
-      <p className="text-slate-500 mb-8 text-sm">
-        Select all the challenges your business currently faces. <span className="text-slate-700 font-medium">Pick at least one.</span>
+      <h2 className="text-2xl font-bold text-[#1B3634] mb-1">Pain Points</h2>
+      <p className="text-[#4B6B68] mb-8 text-sm">
+        Select all the challenges your business currently faces. <span className="text-[#1B3634] font-medium">Pick at least one.</span>
       </p>
       <div className="space-y-3">
         {PAIN_POINTS.map((point) => {
@@ -359,12 +359,12 @@ function Step3({
             <label
               key={point}
               className={`flex items-center gap-4 border rounded-lg px-4 py-3.5 cursor-pointer transition ${
-                checked ? "border-blue-500 bg-blue-50" : "border-slate-200 hover:border-slate-300"
+                checked ? "border-[#3D9A93] bg-[#EDF0E6]" : "border-[rgba(27,74,71,0.2)] hover:border-[#3D9A93]/50"
               }`}
             >
               <div
                 className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 border-2 transition ${
-                  checked ? "bg-blue-500 border-blue-500" : "border-slate-300"
+                  checked ? "bg-[#3D9A93] border-[#3D9A93]" : "border-[#7A9896]"
                 }`}
               >
                 {checked && (
@@ -379,7 +379,7 @@ function Step3({
                 onChange={() => togglePainPoint(point)}
                 className="sr-only"
               />
-              <span className="text-sm text-slate-700">{point}</span>
+              <span className="text-sm text-[#1B3634]">{point}</span>
             </label>
           );
         })}
@@ -397,14 +397,14 @@ function Step4({
 }) {
   return (
     <div>
-      <h2 className="text-2xl font-bold text-slate-900 mb-1">Goals &amp; Constraints</h2>
-      <p className="text-slate-500 mb-8 text-sm">
+      <h2 className="text-2xl font-bold text-[#1B3634] mb-1">Goals &amp; Constraints</h2>
+      <p className="text-[#4B6B68] mb-8 text-sm">
         Help us prioritize recommendations that match your objectives and budget.
       </p>
 
       <div className="space-y-8">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-3">
+          <label className="block text-sm font-medium text-[#1B3634] mb-3">
             Primary Goal <span className="text-red-500">*</span>
           </label>
           <div className="space-y-2">
@@ -419,8 +419,8 @@ function Step4({
                 key={goal}
                 className={`flex items-center gap-3 border rounded-lg px-4 py-3 cursor-pointer transition ${
                   form.primaryGoal === goal
-                    ? "border-blue-500 bg-blue-50"
-                    : "border-slate-200 hover:border-slate-300"
+                    ? "border-[#3D9A93] bg-[#EDF0E6]"
+                    : "border-[rgba(27,74,71,0.2)] hover:border-[#3D9A93]/50"
                 }`}
               >
                 <input
@@ -429,16 +429,16 @@ function Step4({
                   value={goal}
                   checked={form.primaryGoal === goal}
                   onChange={(e) => updateField("primaryGoal", e.target.value)}
-                  className="text-blue-500"
+                  className="text-[#3D9A93]"
                 />
-                <span className="text-sm text-slate-700">{goal}</span>
+                <span className="text-sm text-[#1B3634]">{goal}</span>
               </label>
             ))}
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-3">
+          <label className="block text-sm font-medium text-[#1B3634] mb-3">
             Monthly Budget for AI Tools <span className="text-red-500">*</span>
           </label>
           <div className="grid grid-cols-2 gap-3">
@@ -452,8 +452,8 @@ function Step4({
                 key={value}
                 className={`flex items-center gap-3 border rounded-lg px-4 py-3 cursor-pointer transition ${
                   form.budget === value
-                    ? "border-blue-500 bg-blue-50"
-                    : "border-slate-200 hover:border-slate-300"
+                    ? "border-[#3D9A93] bg-[#EDF0E6]"
+                    : "border-[rgba(27,74,71,0.2)] hover:border-[#3D9A93]/50"
                 }`}
               >
                 <input
@@ -462,16 +462,16 @@ function Step4({
                   value={value}
                   checked={form.budget === value}
                   onChange={(e) => updateField("budget", e.target.value)}
-                  className="text-blue-500"
+                  className="text-[#3D9A93]"
                 />
-                <span className="text-sm text-slate-700">{label}</span>
+                <span className="text-sm text-[#1B3634]">{label}</span>
               </label>
             ))}
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-3">
+          <label className="block text-sm font-medium text-[#1B3634] mb-3">
             Implementation Timeline <span className="text-red-500">*</span>
           </label>
           <div className="grid grid-cols-2 gap-3">
@@ -480,8 +480,8 @@ function Step4({
                 key={tl}
                 className={`flex items-center gap-3 border rounded-lg px-4 py-3 cursor-pointer transition ${
                   form.timeline === tl
-                    ? "border-blue-500 bg-blue-50"
-                    : "border-slate-200 hover:border-slate-300"
+                    ? "border-[#3D9A93] bg-[#EDF0E6]"
+                    : "border-[rgba(27,74,71,0.2)] hover:border-[#3D9A93]/50"
                 }`}
               >
                 <input
@@ -490,9 +490,9 @@ function Step4({
                   value={tl}
                   checked={form.timeline === tl}
                   onChange={(e) => updateField("timeline", e.target.value)}
-                  className="text-blue-500"
+                  className="text-[#3D9A93]"
                 />
-                <span className="text-sm text-slate-700">{tl}</span>
+                <span className="text-sm text-[#1B3634]">{tl}</span>
               </label>
             ))}
           </div>
